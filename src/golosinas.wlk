@@ -1,3 +1,4 @@
+import mariano.*
 /*
  * Los sabores
  */
@@ -21,6 +22,14 @@ class Bombon {
 	method libreGluten() { return true }
 }
 
+class BombonDuro inherits Bombon {
+	override method mordisco() { peso = peso - 1 }
+	method gradoDeDureza() = 
+		if(peso>12) 3
+		else if (peso.between(8,12)) 2
+		else 1
+}
+
 
 class Alfajor {
 	var peso = 15
@@ -40,6 +49,16 @@ class Caramelo {
 	method mordisco() { peso = peso - 1 }
 	method sabor() { return frutilla }
 	method libreGluten() { return true }
+}
+
+class CarameloRelleno inherits Caramelo {
+	var property sabor
+	
+	override method precio() = super() + 1
+	override method mordisco() {
+		super()
+		sabor = chocolate
+	}
 }
 
 
@@ -75,6 +94,17 @@ class Oblea {
 	method libreGluten() { return false }
 }
 
+class ObleaCrujiente inherits Oblea {
+	var cantidadDeMordiscos = 0
+	override method mordisco() {
+		super()
+		if(cantidadDeMordiscos < 3) peso -= 3
+		cantidadDeMordiscos++
+	}
+	method estaDebil() = cantidadDeMordiscos > 3
+	
+}
+
 class Chocolatin {
 	// hay que acordarse de *dos* cosas, el peso inicial y el peso actual
 	// el precio se calcula a partir del precio inicial
@@ -89,6 +119,15 @@ class Chocolatin {
 	method sabor() { return chocolate }
 	method libreGluten() { return false }
 
+}
+
+class ChocolatinVip inherits Chocolatin {
+	override method peso() = super() * (1 + self.humedad())
+	method humedad() = mariano.coeficienteHumedadHeladera()
+}
+
+class ChocolatinPremium inherits ChocolatinVip {
+	override method humedad() = super() * 0.5
 }
 
 class GolosinaBaniada {

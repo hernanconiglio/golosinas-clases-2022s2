@@ -2,6 +2,7 @@ import golosinas.*
 
 object mariano {
 	var golosinas = []
+	var property coeficienteHumedadHeladera = 0.5
 	 
 	method comprar(_golosina) { golosinas.add(_golosina) }
 	
